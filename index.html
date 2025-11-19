@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ERP Time Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .input-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        input {
+            width: 80px;
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            text-align: center;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #667eea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #764ba2;
+        }
+        .output {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        .result {
+            color: #667eea;
+            font-weight: bold;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ERP Time Calculator</h1>
+        <div class="input-group">
+            <input type="number" id="hours" placeholder="HH" min="0" max="23">
+            <span>:</span>
+            <input type="number" id="minutes" placeholder="MM" min="0" max="59">
+            <span>:</span>
+            <input type="number" id="seconds" placeholder="SS" min="0" max="59">
+        </div>
+        <button onclick="calculateTime()">Calculate (+9:30)</button>
+        <div class="output">
+            <p>Output Time:</p>
+            <p class="result" id="result">--:--:--</p>
+        </div>
+    </div>
+
+    <script>
+        function calculateTime() {
+            let hours = parseInt(document.getElementById('hours').value) || 0;
+            let minutes = parseInt(document.getElementById('minutes').value) || 0;
+            let seconds = parseInt(document.getElementById('seconds').value) || 0;
+
+            // Convert to total seconds
+            let totalSeconds = hours * 3600 + minutes * 60 + seconds;
+
+            // Add 9 hours and 30 minutes (9.5 hours = 34200 seconds)
+            totalSeconds += 9 * 3600 + 30 * 60;
+
+            // Handle 24-hour format overflow
+            totalSeconds = totalSeconds % (24 * 3600);
+
+            // Convert back to HH:MM:SS
+            let outHours = Math.floor(totalSeconds / 3600);
+            let outMinutes = Math.floor((totalSeconds % 3600) / 60);
+            let outSeconds = totalSeconds % 60;
+
+            // Format with leading zeros
+            let result = 
+                String(outHours).padStart(2, '0') + '-' +
+                String(outMinutes).padStart(2, '0') + '-' +
+                String(outSeconds).padStart(2, '0');
+
+            document.getElementById('result').textContent = result;
+        }
+    </script>
+</body>
+</html>
